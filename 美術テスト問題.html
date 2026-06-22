@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>美術テスト問題</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Hiragino Sans', 'Meiryo', sans-serif;
+      background: #f5f0e8;
+      color: #333;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      font-size: 1.6rem;
+      margin-bottom: 6px;
+      color: #5a3e2b;
+      border-bottom: 3px solid #c8a96e;
+      padding-bottom: 8px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #888;
+      font-size: 0.85rem;
+      margin-bottom: 24px;
+    }
+    .section-title {
+      background: #5a3e2b;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 1rem;
+      margin: 28px 0 14px;
+    }
+    .question-block {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-bottom: 14px;
+      position: relative;
+    }
+    .q-num {
+      font-weight: bold;
+      color: #c8a96e;
+      margin-right: 6px;
+    }
+    .q-text { font-size: 0.97rem; line-height: 1.7; margin-bottom: 10px; }
+    .choices { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .choice-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      padding: 6px 10px;
+      border-radius: 5px;
+      border: 1px solid #e0d8cc;
+      transition: background 0.15s;
+      font-size: 0.92rem;
+    }
+    .choice-label:hover { background: #fdf6ea; }
+    .choice-label input { accent-color: #c8a96e; }
+    .fill-blank {
+      border: none;
+      border-bottom: 2px solid #c8a96e;
+      padding: 2px 6px;
+      font-size: 0.95rem;
+      width: 120px;
+      outline: none;
+      background: transparent;
+    }
+    .answer-area {
+      margin-top: 10px;
+    }
+    textarea.desc {
+      width: 100%;
+      min-height: 60px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 8px;
+      font-size: 0.9rem;
+      resize: vertical;
+    }
+    .btn-check {
+      display: block;
+      margin: 28px auto 0;
+      background: #5a3e2b;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 40px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-check:hover { background: #7a5e3b; }
+    #result-section {
+      display: none;
+      margin-top: 30px;
+      background: #fff8ee;
+      border: 2px solid #c8a96e;
+      border-radius: 10px;
+      padding: 20px;
+    }
+    .score { text-align: center; font-size: 1.8rem; color: #5a3e2b; font-weight: bold; margin-bottom: 12px; }
+    .answer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+      font-size: 0.88rem;
+      gap: 10px;
+    }
+    .correct-mark { color: #2b8a3e; font-weight: bold; }
+    .wrong-mark { color: #c92a2a; font-weight: bold; }
+    .ans-label { flex: 1; }
+    .correct-ans { color: #2b8a3e; font-size: 0.84rem; }
+    .btn-reset {
+      display: block;
+      margin: 18px auto 0;
+      background: #888;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 30px;
+      font-size: 0.92rem;
+      cursor: pointer;
+    }
+    .btn-reset:hover { background: #666; }
+    .hint { font-size: 0.78rem; color: #999; margin-top: 4px; }
+  </style>
+</head>
+<body>
+
+<h1>美術テスト問題</h1>
+<p class="subtitle">絵の具のテクニック・スケッチ・水墨画</p>
+
+<form id="quiz-form">
+
+  <!-- ===== セクション1: 絵の具のテクニック ===== -->
+  <div class="section-title">【1】絵の具のテクニック（モダンテクニック）</div>
+
+  <!-- Q1 -->
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問1</span>
+      布に溶かしたロウを塗り、染料で染めることで模様をつくる技法を何というか。
+    </p>
+    <ul class="choices">
+      <li><label class="choice-label"><input type="radio" name="q1" value="a">ア．スクラッチ</label></li>
+      <li><label class="choice-label"><input type="radio" name="q1" value="b">イ．バティック</label></li>
+      <li><label class="choice-label"><input type="radio" name="q1" value="c">ウ．フロッタージュ</label></li>
+      <li><label class="choice-label"><input type="radio" name="q1" value="d">エ．ステンシル</label></li>
+    </ul>
+  </div>
+
+  <!-- Q2 -->
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問2</span>
+      凸凹のある表面に紙を当て、鉛筆やクレヨンで上からこすって模様を写し取る技法を何というか。
+    </p>
+    <ul class="choices">
+      <li><label class="choice-label"><input type="radio" name="q2" value="a">ア．コラージュ</label></li>
+      <li><label class="choice-label"><input type="radio" name="q2" value="b">イ．デカルコマニー</label></li>
+      <li><label class="choice-label"><input type="radio" name="q2" value="c">ウ．フロッタージュ</label></li>
+      <li><label class="choice-label"><input type="radio" name="q2" value="d">エ．マーブリング</label></li>
+    </ul>
+  </div>
+
+  <!-- Q3 -->
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問3</span>
+      水面に絵の具を垂らし、その模様を紙に写し取る技法を何というか。
+    </p>
+    <ul class="choices">
+      <li><label class="choice-label"><input type="radio" name="q3" value="a">ア．スパッタリング</label></li>
+      <li><label class="choice-label"><input type="radio" name="q3" value="b">イ．マーブリング</label></li>
+      <li><label class="choice-label"><input type="radio" name="q3" value="c">ウ．スクラッチ</label></li>
+      <li><label class="choice-label"><input type="radio" name="q3" value="d">エ．ストリング</label></li>
+    </ul>
+  </div>
+
+  <!-- Q4 -->
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問4</span>
+      金網の上でブラシをこすり、細かい絵の具の粒を紙に飛ばす技法を何というか。
+    </p>
+    <ul class="choices">
+      <li><label class="choice-label"><input type="radio" name="q4" value="a">ア．コラージュ</label></li>
+      <li><label class="choice-label"><input type="radio" name="q4" value="b">イ．バティック</label></li>
+      <li><label class="choice-label"><input type="radio" name="q4" value="c">ウ．スパッタリング</label></li>
+      <li><label class="choice-label"><input type="radio" name="q4" value="d">エ．フロッタージュ</label></li>
+    </ul>
+  </div>
+
+  <!-- Q5 -->
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問5</span>
+      紙の上に絵の具をたっぷりのせ、別の紙を重ねて転写させる技法を何というか。
+    </p>
+    <ul class="choices">
+      <li><label class="choice-label"><input type="radio" name="q5" value="a">ア．デカルコマニー</label></li>
+      <li><label class="choice-label"><input type="radio" name="q5" value="b">イ．ステンシル</label></li>
+      <li><label class="choice-label"><input type="radio" name="q5" value="c">ウ．マーブリング</label></li>
+      <li><label class="choice-label"><input type="radio" name="q5" value="d">エ．スクラッチ</label></li>
+    </ul>
+  </div>
+
+  <!-- Q6 -->
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問6</span>
+      切り抜いた型紙（テンプレート）を使い、その上から絵の具を塗って模様をつける技法を何というか。
+    </p>
+    <ul class="choices">
+      <li><label class="choice-label"><input type="radio" name="q6" value="a">ア．スクラッチ</label></li>
+      <li><label class="choice-label"><input type="radio" name="q6" value="b">イ．フロッタージュ</label></li>
+      <li><label class="choice-label"><input type="radio" name="q6" value="c">ウ．ストリング</label></li>
+      <li><label class="choice-label"><input type="radio" name="q6" value="d">エ．ステンシル</label></li>
+    </ul>
+  </div>
+
+  <!-- Q7 -->
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問7</span>
+      黒いクレヨンや絵の具を塗り重ねた表面を、とがったもので引っかいて下の色や紙の地を出す技法を何というか。
+    </p>
+    <ul class="choices">
+      <li><label class="choice-label"><input type="radio" name="q7" value="a">ア．スパッタリング</label></li>
+      <li><label class="choice-label"><input type="radio" name="q7" value="b">イ．スクラッチ</label></li>
+      <li><label class="choice-label"><input type="radio" name="q7" value="c">ウ．コラージュ</label></li>
+      <li><label class="choice-label"><input type="radio" name="q7" value="d">エ．デカルコマニー</label></li>
+    </ul>
+  </div>
+
+  <!-- Q8 -->
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問8</span>
+      絵の具や糊を含ませた糸を紙に挟んで引き抜くことで模様をつくる技法を何というか。
+    </p>
+    <ul class="choices">
+      <li><label class="choice-label"><input type="radio" name="q8" value="a">ア．ストリング</label></li>
+      <li><label class="choice-label"><input type="radio" name="q8" value="b">イ．バティック</label></li>
+      <li><label class="choice-label"><input type="radio" name="q8" value="c">ウ．コラージュ</label></li>
+      <li><label class="choice-label"><input type="radio" name="q8" value="d">エ．マーブリング</label></li>
+    </ul>
+  </div>
+
+  <!-- Q9 穴埋め -->
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問9</span>
+      雑誌や布など異なる素材を切り貼りして一つの作品をつくる技法を
+      <input class="fill-blank" type="text" id="q9" placeholder="　　　　">
+      という。
+    </p>
+  </div>
+
+  <!-- ===== セクション2: スケッチ ===== -->
+  <div class="section-title">【2】スケッチからはじめよう</div>
+
+  <!-- Q10 -->
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問10</span>
+      スケッチをするときの基本的な心がけとして、正しいものを選べ。
+    </p>
+    <ul class="choices">
+      <li><label class="choice-label"><input type="radio" name="q10" value="a">ア．最初から細部を細かく描く</label></li>
+      <li><label class="choice-label"><input type="radio" name="q10" value="b">イ．全体のバランスや形を大まかにとらえてから描く</label></li>
+      <li><label class="choice-label"><input type="radio" name="q10" value="c">ウ．輪郭線だけを何度もなぞる</label></li>
+      <li><label class="choice-label"><input type="radio" name="q10" value="d">エ．消しゴムを使わずに一発で仕上げる</label></li>
+    </ul>
+  </div>
+
+  <!-- Q11 -->
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問11</span>
+      スケッチブックに素早く描くことで、対象の動きや印象をとらえる描き方を何というか。
+    </p>
+    <ul class="choices">
+      <li><label class="choice-label"><input type="radio" name="q11" value="a">ア．精密描写</label></li>
+      <li><label class="choice-label"><input type="radio" name="q11" value="b">イ．クロッキー</label></li>
+      <li><label class="choice-label"><input type="radio" name="q11" value="c">ウ．版画</label></li>
+      <li><label class="choice-label"><input type="radio" name="q11" value="d">エ．水彩画</label></li>
+    </ul>
+  </div>
+
+  <!-- Q12 -->
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問12</span>
+      対象を観察しながら自由に描く「自由描写」の目的として最もあてはまるものを選べ。
+    </p>
+    <ul class="choices">
+      <li><label class="choice-label"><input type="radio" name="q12" value="a">ア．できるだけ写真のように正確に再現する</label></li>
+      <li><label class="choice-label"><input type="radio" name="q12" value="b">イ．対象をよく観察し、自分なりの表現力を高める</label></li>
+      <li><label class="choice-label"><input type="radio" name="q12" value="c">ウ．テクニックを覚えなくてもよい練習法</label></li>
+      <li><label class="choice-label"><input type="radio" name="q12" value="d">エ．時間をかけずにすばやく完成させる</label></li>
+    </ul>
+  </div>
+
+  <!-- Q13 穴埋め -->
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問13</span>
+      スケッチでは、対象の<input class="fill-blank" type="text" id="q13a" placeholder="　　　　">や
+      <input class="fill-blank" type="text" id="q13b" placeholder="　　　　">を
+      大まかにとらえることが大切である。（例：形・バランスなど）
+    </p>
+    <p class="hint">※2つ答えてください（例：「形」「バランス」「構図」「明暗」など）</p>
+  </div>
+
+  <!-- ===== セクション3: 水墨画・日本画 ===== -->
+  <div class="section-title">【3】水墨画・日本画</div>
+
+  <!-- Q14 -->
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問14</span>
+      墨と水だけを使い、濃淡や筆のかすれで表現する絵画技法を何というか。
+    </p>
+    <ul class="choices">
+      <li><label class="choice-label"><input type="radio" name="q14" value="a">ア．油絵</label></li>
+      <li><label class="choice-label"><input type="radio" name="q14" value="b">イ．水墨画</label></li>
+      <li><label class="choice-label"><input type="radio" name="q14" value="c">ウ．版画</label></li>
+      <li><label class="choice-label"><input type="radio" name="q14" value="d">エ．水彩画</label></li>
+    </ul>
+  </div>
+
+  <!-- Q15 -->
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問15</span>
+      水墨画で墨の濃さを調整することで生まれる表現効果として正しいのはどれか。
+    </p>
+    <ul class="choices">
+      <li><label class="choice-label"><input type="radio" name="q15" value="a">ア．遠近感や立体感、空間の深みを表現できる</label></li>
+      <li><label class="choice-label"><input type="radio" name="q15" value="b">イ．鮮やかな色彩のグラデーションをつくれる</label></li>
+      <li><label class="choice-label"><input type="radio" name="q15" value="c">ウ．版を使って同じ絵を複数刷ることができる</label></li>
+      <li><label class="choice-label"><input type="radio" name="q15" value="d">エ．貼り合わせた素材のテクスチャーが生かせる</label></li>
+    </ul>
+  </div>
+
+  <!-- Q16 -->
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問16</span>
+      下の説明文にあてはまる技法名を答えよ。<br>
+      「墨や絵の具を筆に含ませ、勢いよく紙に打ちつけたり垂らしたりして表現する。」
+    </p>
+    <ul class="choices">
+      <li><label class="choice-label"><input type="radio" name="q16" value="a">ア．マーブリング</label></li>
+      <li><label class="choice-label"><input type="radio" name="q16" value="b">イ．たらし込み（ドリッピング）</label></li>
+      <li><label class="choice-label"><input type="radio" name="q16" value="c">ウ．ステンシル</label></li>
+      <li><label class="choice-label"><input type="radio" name="q16" value="d">エ．フロッタージュ</label></li>
+    </ul>
+  </div>
+
+  <!-- Q17 穴埋め -->
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問17</span>
+      水墨画では主に<input class="fill-blank" type="text" id="q17" placeholder="　　　　">
+      という画材を使い、水の量で濃淡を表現する。
+    </p>
+  </div>
+
+  <!-- Q18 記述 -->
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問18</span>（記述）<br>
+      水墨画で「かすれ」を表現するにはどうすればよいか、簡単に説明せよ。
+    </p>
+    <div class="answer-area">
+      <textarea class="desc" id="q18" placeholder="ここに答えを書いてください…"></textarea>
+    </div>
+  </div>
+
+  <!-- ===== セクション4: 総合 ===== -->
+  <div class="section-title">【4】総合問題</div>
+
+  <!-- Q19 -->
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問19</span>
+      次のテクニックのうち、「水を使わずに行う」ものはどれか。
+    </p>
+    <ul class="choices">
+      <li><label class="choice-label"><input type="radio" name="q19" value="a">ア．マーブリング</label></li>
+      <li><label class="choice-label"><input type="radio" name="q19" value="b">イ．フロッタージュ</label></li>
+      <li><label class="choice-label"><input type="radio" name="q19" value="c">ウ．デカルコマニー</label></li>
+      <li><label class="choice-label"><input type="radio" name="q19" value="d">エ．スパッタリング</label></li>
+    </ul>
+  </div>
+
+  <!-- Q20 -->
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問20</span>
+      次のテクニックと説明の組み合わせとして正しいものを選べ。
+    </p>
+    <ul class="choices">
+      <li><label class="choice-label"><input type="radio" name="q20" value="a">ア．コラージュ ＝ 水面に絵の具を垂らして模様をつくる</label></li>
+      <li><label class="choice-label"><input type="radio" name="q20" value="b">イ．スクラッチ ＝ 表面を引っかいて下の色を出す</label></li>
+      <li><label class="choice-label"><input type="radio" name="q20" value="c">ウ．デカルコマニー ＝ 金網でブラシをこすって絵の具を飛ばす</label></li>
+      <li><label class="choice-label"><input type="radio" name="q20" value="d">エ．バティック ＝ 糸を紙に挟んで引き抜く</label></li>
+    </ul>
+  </div>
+
+  <button type="button" class="btn-check" onclick="checkAnswers()">採点する</button>
+</form>
+
+<div id="result-section">
+  <div class="score" id="score-text"></div>
+  <div id="answers-detail"></div>
+  <button class="btn-reset" onclick="resetQuiz()">もう一度挑戦する</button>
+</div>
+
+<script>
+const ANSWERS = {
+  q1:  'b',  // バティック
+  q2:  'c',  // フロッタージュ
+  q3:  'b',  // マーブリング
+  q4:  'c',  // スパッタリング
+  q5:  'a',  // デカルコマニー
+  q6:  'd',  // ステンシル
+  q7:  'b',  // スクラッチ
+  q8:  'a',  // ストリング
+  q10: 'b',  // 全体のバランスから
+  q11: 'b',  // クロッキー
+  q12: 'b',  // 観察・表現力
+  q14: 'b',  // 水墨画
+  q15: 'a',  // 遠近感・立体感
+  q16: 'b',  // たらし込み
+  q19: 'b',  // フロッタージュ
+  q20: 'b',  // スクラッチ=引っかく
+};
+
+const CORRECT_TEXT = {
+  q9:  'コラージュ',
+  q13a: '形（例: 形・バランス・構図・明暗など）',
+  q17: '墨（すみ）',
+};
+
+const QUESTION_LABELS = {
+  q1: '問1', q2: '問2', q3: '問3', q4: '問4', q5: '問5',
+  q6: '問6', q7: '問7', q8: '問8', q9: '問9（穴埋め）',
+  q10: '問10', q11: '問11', q12: '問12', q13: '問13（穴埋め）',
+  q14: '問14', q15: '問15', q16: '問16', q17: '問17（穴埋め）',
+  q18: '問18（記述）', q19: '問19', q20: '問20',
+};
+
+function checkAnswers() {
+  let correct = 0;
+  const total = 20;
+  let html = '';
+
+  // 選択問題採点
+  for (const [key, ans] of Object.entries(ANSWERS)) {
+    const selected = document.querySelector(`input[name="${key}"]:checked`);
+    const isOk = selected && selected.value === ans;
+    if (isOk) correct++;
+    const mark = isOk ? '<span class="correct-mark">○</span>' : '<span class="wrong-mark">✕</span>';
+    const correctLabel = getChoiceText(key, ans);
+    html += `<div class="answer-row">
+      <span class="ans-label">${mark} ${QUESTION_LABELS[key]}</span>
+      ${isOk ? '' : `<span class="correct-ans">正解: ${correctLabel}</span>`}
+    </div>`;
+  }
+
+  // 穴埋め（自己採点扱い）
+  for (const [key, hint] of Object.entries(CORRECT_TEXT)) {
+    const val = document.getElementById(key)?.value.trim() || '（未記入）';
+    html += `<div class="answer-row">
+      <span class="ans-label">📝 ${QUESTION_LABELS[key] || key}: <b>${val}</b></span>
+      <span class="correct-ans">参考解答: ${hint}</span>
+    </div>`;
+  }
+
+  // 問13b
+  const q13b = document.getElementById('q13b')?.value.trim() || '（未記入）';
+  html += `<div class="answer-row">
+    <span class="ans-label">📝 問13②: <b>${q13b}</b></span>
+    <span class="correct-ans">参考解答: バランス・明暗・構図など</span>
+  </div>`;
+
+  // 記述
+  const q18val = document.getElementById('q18')?.value.trim() || '（未記入）';
+  html += `<div class="answer-row">
+    <span class="ans-label">📝 問18（記述）: <b>${q18val}</b></span>
+    <span class="correct-ans">参考解答: 筆の水分を少なくして、かすれさせながら描く</span>
+  </div>`;
+
+  document.getElementById('score-text').textContent =
+    `選択問題の得点: ${correct} / ${Object.keys(ANSWERS).length} 問正解`;
+  document.getElementById('answers-detail').innerHTML = html;
+  document.getElementById('result-section').style.display = 'block';
+  document.getElementById('result-section').scrollIntoView({ behavior: 'smooth' });
+}
+
+function getChoiceText(name, val) {
+  const el = document.querySelector(`input[name="${name}"][value="${val}"]`);
+  return el ? el.parentElement.textContent.trim() : val;
+}
+
+function resetQuiz() {
+  document.getElementById('quiz-form').reset();
+  document.getElementById('result-section').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

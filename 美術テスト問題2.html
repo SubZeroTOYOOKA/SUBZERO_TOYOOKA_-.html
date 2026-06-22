@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>美術テスト問題２</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Hiragino Sans', 'Meiryo', sans-serif;
+      background: #f0f4f8;
+      color: #333;
+      padding: 20px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    h1 {
+      text-align: center;
+      font-size: 1.5rem;
+      color: #1e3a5f;
+      border-bottom: 3px solid #4a90d9;
+      padding-bottom: 8px;
+      margin-bottom: 4px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #999;
+      font-size: 0.82rem;
+      margin-bottom: 24px;
+    }
+    .section-title {
+      background: #1e3a5f;
+      color: #fff;
+      padding: 7px 14px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      margin: 28px 0 12px;
+    }
+    .question-block {
+      background: #fff;
+      border: 1px solid #d0dce8;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 12px;
+    }
+    .q-num {
+      font-weight: bold;
+      color: #4a90d9;
+      margin-right: 5px;
+    }
+    .q-text {
+      font-size: 0.95rem;
+      line-height: 1.75;
+      margin-bottom: 8px;
+    }
+    .ans-input {
+      width: 100%;
+      border: none;
+      border-bottom: 2px solid #4a90d9;
+      padding: 4px 6px;
+      font-size: 0.95rem;
+      outline: none;
+      background: transparent;
+      transition: border-color 0.2s;
+    }
+    .ans-input:focus { border-color: #1e3a5f; }
+    .ans-input.correct { border-color: #2b8a3e; background: #f0fff4; }
+    .ans-input.wrong   { border-color: #c92a2a; background: #fff5f5; }
+    textarea.ans-input {
+      resize: vertical;
+      min-height: 64px;
+      border: 1px solid #4a90d9;
+      border-radius: 5px;
+      margin-top: 4px;
+    }
+    textarea.ans-input.correct { border-color: #2b8a3e; background: #f0fff4; }
+    textarea.ans-input.wrong   { border-color: #c92a2a; background: #fff5f5; }
+    .feedback {
+      font-size: 0.8rem;
+      margin-top: 4px;
+      min-height: 1.2em;
+    }
+    .feedback.ok  { color: #2b8a3e; }
+    .feedback.ng  { color: #c92a2a; }
+    .feedback.ref { color: #888; }
+    .btn-check {
+      display: block;
+      margin: 28px auto 0;
+      background: #1e3a5f;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 44px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-check:hover { background: #2e5a8f; }
+    #result-banner {
+      display: none;
+      margin-top: 28px;
+      background: #eef4fb;
+      border: 2px solid #4a90d9;
+      border-radius: 10px;
+      padding: 18px 20px;
+      text-align: center;
+    }
+    .score-text { font-size: 1.7rem; font-weight: bold; color: #1e3a5f; }
+    .score-sub  { font-size: 0.85rem; color: #888; margin-top: 4px; }
+    .btn-reset {
+      margin-top: 14px;
+      background: #888;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 28px;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    .btn-reset:hover { background: #666; }
+  </style>
+</head>
+<body>
+
+<h1>美術テスト問題２</h1>
+<p class="subtitle">版画・水墨画の描き方・動く仕組み・素材の組み合わせ</p>
+
+<form id="quiz-form" autocomplete="off">
+
+  <!-- ===== 1: 版画 ===== -->
+  <div class="section-title">【1】版画</div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問1</span>
+      厚紙やざらざらした素材を板に貼り付けて版をつくり、インクをつけて刷る版画技法を何というか。
+    </p>
+    <input class="ans-input" type="text" id="q1" placeholder="答えを書いてください">
+    <p class="feedback" id="fb1"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問2</span>
+      板に絵の具を直接塗り、紙を重ねて一枚だけ刷る版画技法を何というか。（一版一刷り）
+    </p>
+    <input class="ans-input" type="text" id="q2" placeholder="答えを書いてください">
+    <p class="feedback" id="fb2"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問3</span>
+      布（メッシュ）に模様を焼き付け、インクをスキージーで押し通して刷る版画技法を何というか。
+    </p>
+    <input class="ans-input" type="text" id="q3" placeholder="答えを書いてください">
+    <p class="feedback" id="fb3"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問4</span>
+      石灰石や金属板に油性の描画材で描き、水と油の反発を利用してインクをのせて刷る版画技法を何というか。
+    </p>
+    <input class="ans-input" type="text" id="q4" placeholder="答えを書いてください">
+    <p class="feedback" id="fb4"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問5</span>
+      紙を切ったり貼ったりして版をつくり、インクをつけて刷る版画技法を何というか。
+    </p>
+    <input class="ans-input" type="text" id="q5" placeholder="答えを書いてください">
+    <p class="feedback" id="fb5"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問6</span>
+      版画を刷るときに使う道具で、紙の上からこすってインクを転写させる道具を何というか。
+    </p>
+    <input class="ans-input" type="text" id="q6" placeholder="答えを書いてください">
+    <p class="feedback" id="fb6"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問7</span>
+      版画には大きく分けて「凸版」「凹版」「平版」「孔版」の４種類がある。
+      シルクスクリーンはこのうちどれにあたるか。
+    </p>
+    <input class="ans-input" type="text" id="q7" placeholder="答えを書いてください">
+    <p class="feedback" id="fb7"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問8</span>
+      リトグラフが「水と油の反発」を利用する理由を簡単に説明せよ。
+    </p>
+    <textarea class="ans-input" id="q8" placeholder="答えを書いてください"></textarea>
+    <p class="feedback" id="fb8"></p>
+  </div>
+
+  <!-- ===== 2: 水墨画の描き方 ===== -->
+  <div class="section-title">【2】水墨画の描き方</div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問9</span>
+      水墨画で、水を多く含ませた墨を塗った上にさらに墨を垂らし、自然にじんで広がる表現技法を何というか。
+    </p>
+    <input class="ans-input" type="text" id="q9" placeholder="答えを書いてください">
+    <p class="feedback" id="fb9"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問10</span>
+      水墨画で墨の濃淡を使いわけるとき、濃い墨のことを「濃墨（のうぼく）」という。では薄い墨のことを何というか。
+    </p>
+    <input class="ans-input" type="text" id="q10" placeholder="答えを書いてください">
+    <p class="feedback" id="fb10"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問11</span>
+      水墨画でイチゴやソラマメなどを描くとき、最初にすることとして適切なものを答えよ。
+    </p>
+    <input class="ans-input" type="text" id="q11" placeholder="答えを書いてください">
+    <p class="feedback" id="fb11"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問12</span>
+      水墨画で筆に含ませる水を少なくして、かすれた線や面を表現する技法を何というか。
+    </p>
+    <input class="ans-input" type="text" id="q12" placeholder="答えを書いてください">
+    <p class="feedback" id="fb12"></p>
+  </div>
+
+  <!-- ===== 3: 動く仕組み ===== -->
+  <div class="section-title">【3】動く仕組みから発想して</div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問13</span>
+      回転運動を上下運動（往復運動）に変える仕組みを何というか。
+    </p>
+    <input class="ans-input" type="text" id="q13" placeholder="答えを書いてください">
+    <p class="feedback" id="fb13"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問14</span>
+      回転軸に取り付けた非対称な形の部品が回ることで、複雑な動きをつくり出す仕組みを何というか。
+    </p>
+    <input class="ans-input" type="text" id="q14" placeholder="答えを書いてください">
+    <p class="feedback" id="fb14"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問15</span>
+      重心を低くすることで左右にゆれながらバランスをとる、昔からある玩具を何というか。
+    </p>
+    <input class="ans-input" type="text" id="q15" placeholder="答えを書いてください">
+    <p class="feedback" id="fb15"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問16</span>
+      クランクの仕組みを使った工作で、ハンドルを回すと人形などが上下に動く作品をつくるとき、
+      「動く仕組み」の部分に使われる主な材料を一つ答えよ。
+    </p>
+    <input class="ans-input" type="text" id="q16" placeholder="答えを書いてください">
+    <p class="feedback" id="fb16"></p>
+  </div>
+
+  <!-- ===== 4: 素材の組み合わせ ===== -->
+  <div class="section-title">【4】素材を組み合わせて</div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問17</span>
+      廃材や捨てられた不用品（ガラクタ）を組み合わせてつくる芸術作品や手法を何というか。
+    </p>
+    <input class="ans-input" type="text" id="q17" placeholder="答えを書いてください">
+    <p class="feedback" id="fb17"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問18</span>
+      コラージュを立体的に発展させた手法で、様々な素材を立体的に組み合わせて一つの作品にする技法を何というか。
+    </p>
+    <input class="ans-input" type="text" id="q18" placeholder="答えを書いてください">
+    <p class="feedback" id="fb18"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問19</span>
+      箱の内側に素材を組み合わせて空間や世界観をつくる作品形式を何というか。
+    </p>
+    <input class="ans-input" type="text" id="q19" placeholder="答えを書いてください">
+    <p class="feedback" id="fb19"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問20</span>
+      「ジャンクアート」を制作するとき、どのような点を工夫すると作品として魅力的になるか。あなたの考えを書け。
+    </p>
+    <textarea class="ans-input" id="q20" placeholder="答えを書いてください"></textarea>
+    <p class="feedback" id="fb20"></p>
+  </div>
+
+  <button type="button" class="btn-check" onclick="checkAnswers()">採点・解答確認</button>
+</form>
+
+<div id="result-banner">
+  <div class="score-text" id="score-text"></div>
+  <div class="score-sub">記述問題（問8・11・16・20）は参考解答を確認して自己採点してください。</div>
+  <button class="btn-reset" onclick="resetQuiz()">もう一度挑戦する</button>
+</div>
+
+<script>
+const ANSWERS = {
+  q1:  { keys: ['コログラフ','colograph'], label: 'コログラフ' },
+  q2:  { keys: ['モノタイプ','monotype'], label: 'モノタイプ' },
+  q3:  { keys: ['シルクスクリーン','silkscreen','silk screen'], label: 'シルクスクリーン' },
+  q4:  { keys: ['リトグラフ','lithograph'], label: 'リトグラフ' },
+  q5:  { keys: ['紙版画','かみはんが'], label: '紙版画' },
+  q6:  { keys: ['ばれん','バレン'], label: 'バレン（ばれん）' },
+  q7:  { keys: ['孔版','こうはん'], label: '孔版（こうはん）' },
+  q9:  { keys: ['たらし込み','にじみ'], label: 'たらし込み（にじみ）' },
+  q10: { keys: ['淡墨','たんぼく','薄墨','うすずみ'], label: '淡墨（たんぼく）' },
+  q12: { keys: ['かすれ','渇筆','かっぴつ'], label: 'かすれ（渇筆）' },
+  q13: { keys: ['クランク','crank'], label: 'クランク' },
+  q14: { keys: ['カム','cam'], label: 'カム' },
+  q15: { keys: ['やじろべえ','弥次郎兵衛'], label: 'やじろべえ' },
+  q17: { keys: ['ジャンクアート','junk'], label: 'ジャンクアート' },
+  q18: { keys: ['アッサンブラージュ','assemblage'], label: 'アッサンブラージュ' },
+  q19: { keys: ['ボックスアート','box art','箱'], label: 'ボックスアート' },
+};
+
+const REF_ONLY = {
+  q8:  '水はインクをはじき、油性のインクは油性の描画部分にだけのって、描いていない部分には付かないため。',
+  q11: '対象をよく観察し、全体の形を大まかにとらえてから描き始める。',
+  q16: '針金（ワイヤー）、割り箸、木の棒など（回転や往復を伝えられる素材）',
+  q20: '自由記述（素材の形・質感・色の組み合わせ、テーマを決めるなど）',
+};
+
+function normalize(str) {
+  return str.trim().toLowerCase().replace(/\s/g, '');
+}
+
+function checkAnswers() {
+  let correct = 0;
+  let scorable = 0;
+
+  for (const [id, ans] of Object.entries(ANSWERS)) {
+    scorable++;
+    const el = document.getElementById(id);
+    const fb = document.getElementById('fb' + id.slice(1));
+    const val = normalize(el.value);
+    if (!val) {
+      el.className = 'ans-input';
+      fb.textContent = '';
+      fb.className = 'feedback';
+      continue;
+    }
+    const hit = ans.keys.some(k => val.includes(normalize(k)));
+    if (hit) {
+      correct++;
+      el.classList.add('correct'); el.classList.remove('wrong');
+      fb.textContent = '○ 正解';
+      fb.className = 'feedback ok';
+    } else {
+      el.classList.add('wrong'); el.classList.remove('correct');
+      fb.textContent = '✕ 正解: ' + ans.label;
+      fb.className = 'feedback ng';
+    }
+  }
+
+  for (const [id, ref] of Object.entries(REF_ONLY)) {
+    const fb = document.getElementById('fb' + id.slice(1));
+    if (fb) {
+      fb.textContent = '参考解答: ' + ref;
+      fb.className = 'feedback ref';
+    }
+  }
+
+  document.getElementById('score-text').textContent =
+    `得点: ${correct} / ${scorable} 点（記述問題を除く）`;
+  document.getElementById('result-banner').style.display = 'block';
+  document.getElementById('result-banner').scrollIntoView({ behavior: 'smooth' });
+}
+
+function resetQuiz() {
+  document.querySelectorAll('.ans-input').forEach(el => {
+    el.value = '';
+    el.className = el.tagName === 'TEXTAREA' ? 'ans-input' : 'ans-input';
+  });
+  document.querySelectorAll('.feedback').forEach(el => {
+    el.textContent = '';
+    el.className = 'feedback';
+  });
+  document.getElementById('result-banner').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

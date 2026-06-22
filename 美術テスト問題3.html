@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>美術テスト問題３</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Hiragino Sans', 'Meiryo', sans-serif;
+      background: #f6f2f8;
+      color: #333;
+      padding: 20px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    h1 {
+      text-align: center;
+      font-size: 1.5rem;
+      color: #5a2d6e;
+      border-bottom: 3px solid #a368c0;
+      padding-bottom: 8px;
+      margin-bottom: 4px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #999;
+      font-size: 0.82rem;
+      margin-bottom: 24px;
+    }
+    .section-title {
+      background: #5a2d6e;
+      color: #fff;
+      padding: 7px 14px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      margin: 28px 0 12px;
+    }
+    .question-block {
+      background: #fff;
+      border: 1px solid #e2d4ea;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 12px;
+    }
+    .q-num {
+      font-weight: bold;
+      color: #a368c0;
+      margin-right: 5px;
+    }
+    .q-text {
+      font-size: 0.95rem;
+      line-height: 1.75;
+      margin-bottom: 8px;
+    }
+    .ans-input {
+      width: 100%;
+      border: none;
+      border-bottom: 2px solid #a368c0;
+      padding: 4px 6px;
+      font-size: 0.95rem;
+      outline: none;
+      background: transparent;
+      transition: border-color 0.2s;
+    }
+    .ans-input:focus { border-color: #5a2d6e; }
+    .ans-input.correct { border-color: #2b8a3e; background: #f0fff4; }
+    .ans-input.wrong   { border-color: #c92a2a; background: #fff5f5; }
+    textarea.ans-input {
+      resize: vertical;
+      min-height: 64px;
+      border: 1px solid #a368c0;
+      border-radius: 5px;
+      margin-top: 4px;
+    }
+    textarea.ans-input.correct { border-color: #2b8a3e; background: #f0fff4; }
+    textarea.ans-input.wrong   { border-color: #c92a2a; background: #fff5f5; }
+    .feedback {
+      font-size: 0.8rem;
+      margin-top: 4px;
+      min-height: 1.2em;
+    }
+    .feedback.ok  { color: #2b8a3e; }
+    .feedback.ng  { color: #c92a2a; }
+    .feedback.ref { color: #888; }
+    .btn-check {
+      display: block;
+      margin: 28px auto 0;
+      background: #5a2d6e;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 44px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-check:hover { background: #7a4d8e; }
+    #result-banner {
+      display: none;
+      margin-top: 28px;
+      background: #f8f0fb;
+      border: 2px solid #a368c0;
+      border-radius: 10px;
+      padding: 18px 20px;
+      text-align: center;
+    }
+    .score-text { font-size: 1.7rem; font-weight: bold; color: #5a2d6e; }
+    .score-sub  { font-size: 0.85rem; color: #888; margin-top: 4px; }
+    .btn-reset {
+      margin-top: 14px;
+      background: #888;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 28px;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    .btn-reset:hover { background: #666; }
+  </style>
+</head>
+<body>
+
+<h1>美術テスト問題３</h1>
+<p class="subtitle">世界・西洋の美術史（原始〜ルネサンス）・色の機能・ポスター・シンボルマーク</p>
+
+<form id="quiz-form" autocomplete="off">
+
+  <!-- ===== 1: 原始の美術 ===== -->
+  <div class="section-title">【1】原始の美術</div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問1</span>
+      フランスにある、旧石器時代に描かれた牛や馬などの動物の壁画で有名な洞窟を何というか。
+    </p>
+    <input class="ans-input" type="text" id="q1" placeholder="答えを書いてください">
+    <p class="feedback" id="fb1"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問2</span>
+      日本の縄文時代につくられた、人（特に女性）をかたどった素焼きの像を何というか。
+    </p>
+    <input class="ans-input" type="text" id="q2" placeholder="答えを書いてください">
+    <p class="feedback" id="fb2"></p>
+  </div>
+
+  <!-- ===== 2: 古代の美術 ===== -->
+  <div class="section-title">【2】古代の美術（エジプト・ギリシャ・ローマ）</div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問3</span>
+      古代エジプトで、王（ファラオ）の墓としてつくられた巨大な四角錐の建造物を何というか。
+    </p>
+    <input class="ans-input" type="text" id="q3" placeholder="答えを書いてください">
+    <p class="feedback" id="fb3"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問4</span>
+      古代エジプトの王の墓から発見された、王の顔をかたどった黄金の仮面で有名なものは「□□□□□□□の黄金のマスク」である。□にあてはまる王の名を答えよ。
+    </p>
+    <input class="ans-input" type="text" id="q4" placeholder="答えを書いてください">
+    <p class="feedback" id="fb4"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問5</span>
+      古代ギリシャの彫刻で、両腕が失われた女性像として有名な大理石像を何というか。
+    </p>
+    <input class="ans-input" type="text" id="q5" placeholder="答えを書いてください">
+    <p class="feedback" id="fb5"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問6</span>
+      古代ローマで、剣闘士の試合などが行われた巨大な円形闘技場を何というか。
+    </p>
+    <input class="ans-input" type="text" id="q6" placeholder="答えを書いてください">
+    <p class="feedback" id="fb6"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問7</span>
+      古代ギリシャ・ローマの彫刻に共通する特徴として、人体をどのように表現しようとしたか。簡単に答えよ。
+    </p>
+    <textarea class="ans-input" id="q7" placeholder="答えを書いてください"></textarea>
+    <p class="feedback" id="fb7"></p>
+  </div>
+
+  <!-- ===== 3: 中世・ルネサンス ===== -->
+  <div class="section-title">【3】中世・ルネサンス</div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問8</span>
+      中世ヨーロッパのゴシック建築の教会で、窓に色ガラスを組み合わせて光と模様を表現したものを何というか。
+    </p>
+    <input class="ans-input" type="text" id="q8" placeholder="答えを書いてください">
+    <p class="feedback" id="fb8"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問9</span>
+      14〜16世紀のイタリアを中心に、古代ギリシャ・ローマの文化を復興しようとした文化運動を何というか。
+    </p>
+    <input class="ans-input" type="text" id="q9" placeholder="答えを書いてください">
+    <p class="feedback" id="fb9"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問10</span>
+      「モナ・リザ」「最後の晩餐」を描いた、ルネサンスを代表する芸術家・科学者は誰か。
+    </p>
+    <input class="ans-input" type="text" id="q10" placeholder="答えを書いてください">
+    <p class="feedback" id="fb10"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問11</span>
+      レオナルド・ダ・ヴィンチが、キリストと十二使徒の食事の場面を描いた壁画作品を何というか。
+    </p>
+    <input class="ans-input" type="text" id="q11" placeholder="答えを書いてください">
+    <p class="feedback" id="fb11"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問12</span>
+      システィーナ礼拝堂の天井画「最後の審判」や彫刻「ダビデ像」で知られる芸術家は誰か。
+    </p>
+    <input class="ans-input" type="text" id="q12" placeholder="答えを書いてください">
+    <p class="feedback" id="fb12"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問13</span>
+      「ヴィーナスの誕生」「春（プリマヴェーラ）」を描いたルネサンスの画家は誰か。
+    </p>
+    <input class="ans-input" type="text" id="q13" placeholder="答えを書いてください">
+    <p class="feedback" id="fb13"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問14</span>
+      数多くの優美な「聖母子像」を描いたことで知られるルネサンスの画家は誰か。
+    </p>
+    <input class="ans-input" type="text" id="q14" placeholder="答えを書いてください">
+    <p class="feedback" id="fb14"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問15</span>
+      ルネサンスの絵画で確立された、一点に向かって線が集まるように奥行きを表現する遠近法を何というか。
+    </p>
+    <input class="ans-input" type="text" id="q15" placeholder="答えを書いてください">
+    <p class="feedback" id="fb15"></p>
+  </div>
+
+  <!-- ===== 4: 色の機能 ===== -->
+  <div class="section-title">【4】色の機能</div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問16</span>
+      色の三要素（三属性）をすべて答えよ。
+    </p>
+    <input class="ans-input" type="text" id="q16" placeholder="３つ書いてください">
+    <p class="feedback" id="fb16"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問17</span>
+      色みを順番に円形に並べたものを何というか。
+    </p>
+    <input class="ans-input" type="text" id="q17" placeholder="答えを書いてください">
+    <p class="feedback" id="fb17"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問18</span>
+      色相環で正反対に位置する色どうしの関係を何というか。（例：赤と緑）
+    </p>
+    <input class="ans-input" type="text" id="q18" placeholder="答えを書いてください">
+    <p class="feedback" id="fb18"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問19</span>
+      赤やオレンジのように暖かく感じる色を「暖色」という。
+      では青や水色のように涼しく感じる色を何というか。
+    </p>
+    <input class="ans-input" type="text" id="q19" placeholder="答えを書いてください">
+    <p class="feedback" id="fb19"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問20</span>
+      白・黒・灰色のように、色みをもたない色を何というか。
+    </p>
+    <input class="ans-input" type="text" id="q20" placeholder="答えを書いてください">
+    <p class="feedback" id="fb20"></p>
+  </div>
+
+  <!-- ===== 5: ポスター・シンボルマーク ===== -->
+  <div class="section-title">【5】ポスター・シンボルマーク</div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問21</span>
+      ポスターをつくるとき、最も大切な目的は何か。簡単に説明せよ。
+    </p>
+    <textarea class="ans-input" id="q21" placeholder="答えを書いてください"></textarea>
+    <p class="feedback" id="fb21"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問22</span>
+      ポスターで、伝えたい言葉を短くまとめた印象的な文句を何というか。
+    </p>
+    <input class="ans-input" type="text" id="q22" placeholder="答えを書いてください">
+    <p class="feedback" id="fb22"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問23</span>
+      言葉が分からなくても意味が伝わるように、単純な絵で表した案内用の図記号を何というか。
+      （例：非常口・トイレのマーク）
+    </p>
+    <input class="ans-input" type="text" id="q23" placeholder="答えを書いてください">
+    <p class="feedback" id="fb23"></p>
+  </div>
+
+  <div class="question-block">
+    <p class="q-text"><span class="q-num">問24</span>
+      よいピクトグラムやシンボルマークをデザインするには、どのような工夫が必要か。あなたの考えを書け。
+    </p>
+    <textarea class="ans-input" id="q24" placeholder="答えを書いてください"></textarea>
+    <p class="feedback" id="fb24"></p>
+  </div>
+
+  <button type="button" class="btn-check" onclick="checkAnswers()">採点・解答確認</button>
+</form>
+
+<div id="result-banner">
+  <div class="score-text" id="score-text"></div>
+  <div class="score-sub">記述問題（問7・21・24）は参考解答を確認して自己採点してください。</div>
+  <button class="btn-reset" onclick="resetQuiz()">もう一度挑戦する</button>
+</div>
+
+<script>
+const ANSWERS = {
+  q1:  { keys: ['ラスコー','lascaux'], label: 'ラスコー洞窟' },
+  q2:  { keys: ['土偶','どぐう'], label: '土偶（どぐう）' },
+  q3:  { keys: ['ピラミッド','pyramid'], label: 'ピラミッド' },
+  q4:  { keys: ['ツタンカーメン','tutankhamun','tutankhamen'], label: 'ツタンカーメン' },
+  q5:  { keys: ['ミロのヴィーナス','ミロのビーナス','venus de milo'], label: 'ミロのヴィーナス' },
+  q6:  { keys: ['コロッセオ','コロッセウム','colosseum'], label: 'コロッセオ' },
+  q8:  { keys: ['ステンドグラス','stained glass'], label: 'ステンドグラス' },
+  q9:  { keys: ['ルネサンス','renaissance'], label: 'ルネサンス' },
+  q10: { keys: ['ダ・ヴィンチ','ダヴィンチ','レオナルド','davinci','vinci'], label: 'レオナルド・ダ・ヴィンチ' },
+  q11: { keys: ['最後の晩餐','さいごのばんさん','晩餐'], label: '最後の晩餐' },
+  q12: { keys: ['ミケランジェロ','michelangelo'], label: 'ミケランジェロ' },
+  q13: { keys: ['ボッティチェリ','ボッティチェッリ','botticelli'], label: 'ボッティチェリ' },
+  q14: { keys: ['ラファエロ','raffaello','raphael'], label: 'ラファエロ' },
+  q15: { keys: ['線遠近法','透視図法','一点透視','遠近法','perspective'], label: '線遠近法（透視図法）' },
+  q16: { keys: ['色相','明度','彩度'], label: '色相・明度・彩度', all: true },
+  q17: { keys: ['色相環','しきそうかん','色環'], label: '色相環' },
+  q18: { keys: ['補色','ほしょく'], label: '補色' },
+  q19: { keys: ['寒色','かんしょく'], label: '寒色' },
+  q20: { keys: ['無彩色','むさいしょく'], label: '無彩色' },
+  q22: { keys: ['キャッチコピー','キャッチフレーズ','catch'], label: 'キャッチコピー（キャッチフレーズ）' },
+  q23: { keys: ['ピクトグラム','pictogram','絵文字','絵記号'], label: 'ピクトグラム' },
+};
+
+const REF_ONLY = {
+  q7:  '実際の人体をよく観察し、均整のとれた美しい比率（バランス）で、写実的・理想的に表現しようとした。',
+  q21: '見る人に情報やメッセージを分かりやすく・効果的に伝えること。',
+  q24: '形を単純化し、誰が見てもすぐ意味が分かるようにする。色や形のコントラストをはっきりさせるなど。',
+};
+
+function normalize(str) {
+  return str.trim().toLowerCase().replace(/\s/g, '').replace(/[・,、，]/g, '');
+}
+
+function checkAnswers() {
+  let correct = 0;
+  let scorable = 0;
+
+  for (const [id, ans] of Object.entries(ANSWERS)) {
+    scorable++;
+    const el = document.getElementById(id);
+    const fb = document.getElementById('fb' + id.slice(1));
+    const val = normalize(el.value);
+    if (!val) {
+      el.className = 'ans-input';
+      fb.textContent = '';
+      fb.className = 'feedback';
+      continue;
+    }
+    const hit = ans.all
+      ? ans.keys.every(k => val.includes(normalize(k)))
+      : ans.keys.some(k => val.includes(normalize(k)));
+    if (hit) {
+      correct++;
+      el.classList.add('correct'); el.classList.remove('wrong');
+      fb.textContent = '○ 正解';
+      fb.className = 'feedback ok';
+    } else {
+      el.classList.add('wrong'); el.classList.remove('correct');
+      fb.textContent = '✕ 正解: ' + ans.label;
+      fb.className = 'feedback ng';
+    }
+  }
+
+  for (const [id, ref] of Object.entries(REF_ONLY)) {
+    const fb = document.getElementById('fb' + id.slice(1));
+    if (fb) {
+      fb.textContent = '参考解答: ' + ref;
+      fb.className = 'feedback ref';
+    }
+  }
+
+  document.getElementById('score-text').textContent =
+    `得点: ${correct} / ${scorable} 点（記述問題を除く）`;
+  document.getElementById('result-banner').style.display = 'block';
+  document.getElementById('result-banner').scrollIntoView({ behavior: 'smooth' });
+}
+
+function resetQuiz() {
+  document.querySelectorAll('.ans-input').forEach(el => {
+    el.value = '';
+    el.className = el.tagName === 'TEXTAREA' ? 'ans-input' : 'ans-input';
+  });
+  document.querySelectorAll('.feedback').forEach(el => {
+    el.textContent = '';
+    el.className = 'feedback';
+  });
+  document.getElementById('result-banner').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

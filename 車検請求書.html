@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>車検請求書</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', 'MS PGothic', sans-serif;
+    background: #e9e9e9;
+    color: #1a1a1a;
+    line-height: 1.5;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .sheet {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 16px auto;
+    background: #fff;
+    padding: 16mm 14mm;
+    box-shadow: 0 2px 12px rgba(0,0,0,.25);
+  }
+
+  /* ===== Title ===== */
+  .doc-title {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 900;
+    letter-spacing: 0.5em;
+    padding: 4px 0 6px;
+    border-bottom: 3px solid #111;
+    margin-bottom: 18px;
+  }
+
+  /* ===== Top area ===== */
+  .top { display: flex; justify-content: space-between; gap: 24px; margin-bottom: 14px; }
+  .top .left { flex: 1.1; }
+  .top .right { flex: 1; text-align: left; }
+
+  .customer-name {
+    font-size: 22px; font-weight: 800;
+    border-bottom: 2px solid #111;
+    padding-bottom: 4px; margin-bottom: 6px;
+  }
+  .customer-name .keigo { font-size: 16px; font-weight: 600; margin-left: 8px; }
+  .customer-info { font-size: 12.5px; color: #333; }
+
+  .meta { font-size: 12.5px; margin-bottom: 8px; }
+  .meta div { margin-bottom: 1px; }
+
+  .issuer {
+    border: 1px solid #999; padding: 8px 10px; font-size: 12px;
+    background: #fafafa;
+  }
+  .issuer .iname { font-size: 15px; font-weight: 800; margin-bottom: 3px; }
+  .issuer .reg { margin-top: 4px; font-size: 11px; color: #555; }
+
+  /* ===== Total banner ===== */
+  .grand {
+    display: flex; align-items: baseline; gap: 14px;
+    border: 2px solid #111; padding: 10px 16px; margin: 6px 0 18px;
+    background: #f3f3f3;
+  }
+  .grand .label { font-size: 16px; font-weight: 800; }
+  .grand .amount { font-size: 30px; font-weight: 900; margin-left: auto; }
+  .grand .amount small { font-size: 16px; font-weight: 700; }
+  .grand .tax-note { font-size: 11px; color: #555; }
+
+  /* ===== Vehicle box ===== */
+  .vehicle {
+    width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 16px;
+  }
+  .vehicle th, .vehicle td { border: 1px solid #aaa; padding: 4px 8px; text-align: left; }
+  .vehicle th { background: #f0f0f0; font-weight: 700; white-space: nowrap; width: 14%; }
+
+  /* ===== Detail table ===== */
+  .section-h { font-size: 13px; font-weight: 800; margin: 4px 0 4px; border-left: 5px solid #111; padding-left: 8px; }
+  table.detail { width: 100%; border-collapse: collapse; font-size: 12px; }
+  table.detail th, table.detail td { border: 1px solid #999; padding: 5px 8px; }
+  table.detail thead th { background: #2a2a2a; color: #fff; text-align: center; font-weight: 700; }
+  table.detail td.name { text-align: left; }
+  table.detail td.num { text-align: right; white-space: nowrap; }
+  table.detail td.ctr { text-align: center; white-space: nowrap; }
+  table.detail .part-row td { color: #555; font-size: 11px; background: #fbfbfb; }
+  table.detail .part-row td.name { padding-left: 22px; }
+  table.detail .discount td { color: #b00; }
+  table.detail tfoot td { font-weight: 700; background: #f0f0f0; text-align: right; }
+
+  /* ===== Summary ===== */
+  .summary-wrap { display: flex; justify-content: flex-end; margin-top: 16px; gap: 18px; }
+  .notes { flex: 1; font-size: 11px; color: #444; }
+  .notes ul { list-style: none; }
+  .notes li { margin-bottom: 2px; padding-left: 12px; position: relative; }
+  .notes li::before { content: "・"; position: absolute; left: 0; }
+
+  table.summary { border-collapse: collapse; font-size: 13px; min-width: 300px; }
+  table.summary td { border: 1px solid #999; padding: 6px 12px; }
+  table.summary td.k { background: #f0f0f0; font-weight: 700; white-space: nowrap; }
+  table.summary td.v { text-align: right; white-space: nowrap; }
+  table.summary tr.total td { font-size: 16px; font-weight: 900; background: #2a2a2a; color: #fff; }
+  table.summary .sub td.k { background: #f7f7f7; font-weight: 400; color: #555; padding-left: 24px; }
+
+  .bank {
+    margin-top: 18px; border: 1px solid #999; padding: 8px 12px; font-size: 11.5px; background: #fafafa;
+  }
+  .bank b { font-size: 12.5px; }
+
+  .footer-note { margin-top: 14px; font-size: 11px; color: #666; }
+
+  @media print {
+    body { background: #fff; }
+    .sheet { margin: 0; box-shadow: none; width: auto; }
+    .noprint { display: none; }
+    @page { size: A4; margin: 10mm; }
+  }
+  .toolbar { max-width: 210mm; margin: 16px auto 0; text-align: right; }
+  .toolbar button {
+    background: #111; color: #f5c400; border: none; padding: 8px 18px;
+    font-weight: 700; cursor: pointer; border-radius: 4px; font-size: 13px;
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar noprint">
+  <button onclick="window.print()">この請求書を印刷 / PDF保存</button>
+</div>
+
+<div class="sheet">
+  <div class="doc-title">請　求　書</div>
+
+  <div class="top">
+    <div class="left">
+      <div class="customer-name">三和商事株式会社<span class="keigo">御中</span></div>
+      <div class="customer-info">
+        〒668-0052　兵庫県豊岡市九日市下町131<br>
+        TEL：0796-23-2030
+      </div>
+      <div style="margin-top:14px;font-size:13px;">
+        下記のとおりご請求申し上げます。
+      </div>
+    </div>
+    <div class="right">
+      <div class="meta">
+        <div>請求日：令和8年6月25日</div>
+        <div>伝票No：00016126　U00018845</div>
+        <div>指示書No：00005777</div>
+      </div>
+      <div class="issuer">
+        <div class="iname">REX株式会社</div>
+        〒668-0855　兵庫県豊岡市伏198<br>
+        TEL：0796-24-5288　FAX：0796-24-5289<br>
+        URL：www.rex-co-ltd.com
+        <div class="reg">
+          登録番号：T7140001090103<br>
+          受付担当：佐藤 幹也　／　作業担当：原田 祥平
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grand">
+    <span class="label">ご請求金額</span>
+    <span class="tax-note">（消費税込）</span>
+    <span class="amount">¥54,300<small> -</small></span>
+  </div>
+
+  <table class="vehicle">
+    <tr>
+      <th>登録番号</th><td>姫路 480 ち 9525</td>
+      <th>車　名</th><td>三菱 ミニキャブバン</td>
+    </tr>
+    <tr>
+      <th>型　式</th><td>HBD-DS17V</td>
+      <th>車台番号</th><td>DS17V-256638</td>
+    </tr>
+    <tr>
+      <th>原動機型式</th><td>R06A</td>
+      <th>初年度登録</th><td>平成30年6月</td>
+    </tr>
+    <tr>
+      <th>走行距離</th><td>94,790 km</td>
+      <th>車検区分</th><td>軽自動車</td>
+    </tr>
+    <tr>
+      <th>入庫日</th><td>令和8年6月24日</td>
+      <th>出庫日</th><td>令和8年6月25日</td>
+    </tr>
+    <tr>
+      <th>次回車検日</th><td colspan="3">令和10年6月27日</td>
+    </tr>
+  </table>
+
+  <div class="section-h">作業内容・使用部品明細</div>
+  <table class="detail">
+    <thead>
+      <tr>
+        <th style="width:44%">作業内容・使用部品名</th>
+        <th style="width:8%">区分</th>
+        <th style="width:8%">数量</th>
+        <th style="width:13%">単価</th>
+        <th style="width:13%">部品金額</th>
+        <th style="width:14%">技術料</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="name">車検基本料金</td>
+        <td class="ctr">―</td><td class="ctr"></td><td class="num"></td><td class="num"></td><td class="num">11,500</td>
+      </tr>
+      <tr>
+        <td class="name">フロント・ディスク・ロータ（1台）</td>
+        <td class="ctr">取替</td><td class="ctr"></td><td class="num"></td><td class="num"></td><td class="num">9,000</td>
+      </tr>
+      <tr class="part-row"><td class="name">ディスク, フロント ブレーキ</td><td class="ctr">持込</td><td class="ctr">2.0</td><td class="num"></td><td class="num"></td><td class="num"></td></tr>
+      <tr class="part-row"><td class="name">パッド, セット, フロント ブレーキ</td><td class="ctr">持込</td><td class="ctr">1.0</td><td class="num"></td><td class="num"></td><td class="num"></td></tr>
+      <tr>
+        <td class="name">リヤブレーキ（1台）</td>
+        <td class="ctr">清掃</td><td class="ctr"></td><td class="num"></td><td class="num"></td><td class="num">2,700</td>
+      </tr>
+      <tr>
+        <td class="name">ブレーキ・フルード</td>
+        <td class="ctr">取替</td><td class="ctr">1.0</td><td class="num">1,000</td><td class="num">1,000</td><td class="num">2,700</td>
+      </tr>
+      <tr>
+        <td class="name">V-ベルト全数</td>
+        <td class="ctr">取替</td><td class="ctr"></td><td class="num"></td><td class="num"></td><td class="num">8,100</td>
+      </tr>
+      <tr class="part-row"><td class="name">ベルト, エアコン</td><td class="ctr">持込</td><td class="ctr">1.0</td><td class="num"></td><td class="num"></td><td class="num"></td></tr>
+      <tr class="part-row"><td class="name">ベルト, オルタネータ &amp; アイドラ</td><td class="ctr">持込</td><td class="ctr">1.0</td><td class="num"></td><td class="num"></td><td class="num"></td></tr>
+      <tr>
+        <td class="name">エア・クリーナー・エレメント</td>
+        <td class="ctr">取替</td><td class="ctr"></td><td class="num"></td><td class="num"></td><td class="num">2,700</td>
+      </tr>
+      <tr class="part-row"><td class="name">エレメント, エア クリーナ</td><td class="ctr">持込</td><td class="ctr">1.0</td><td class="num"></td><td class="num"></td><td class="num"></td></tr>
+      <tr>
+        <td class="name">発炎筒</td>
+        <td class="ctr">取付</td><td class="ctr">1.0</td><td class="num"></td><td class="num"></td><td class="num"></td>
+      </tr>
+      <tr>
+        <td class="name">フロントバンパークリップ</td>
+        <td class="ctr">取付</td><td class="ctr">1.0</td><td class="num"></td><td class="num"></td><td class="num"></td>
+      </tr>
+      <tr>
+        <td class="name">アンダーカバークリップ</td>
+        <td class="ctr">取付</td><td class="ctr">2.0</td><td class="num"></td><td class="num"></td><td class="num"></td>
+      </tr>
+      <tr>
+        <td class="name">スペアタイヤ・エアバルブ</td>
+        <td class="ctr">取替</td><td class="ctr">1.0</td><td class="num">1,000</td><td class="num">1,000</td><td class="num">1,000</td>
+      </tr>
+      <tr class="discount">
+        <td class="name">燃ポンプデリ・エアコンフィルター（スタンドにて）値引き</td>
+        <td class="ctr">値引</td><td class="ctr"></td><td class="num"></td><td class="num"></td><td class="num">-5,245</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="4" style="text-align:right">小　計</td>
+        <td class="num">2,000</td>
+        <td class="num">32,455</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <div class="section-h" style="margin-top:14px;">諸費用</div>
+  <table class="detail">
+    <tbody>
+      <tr><td class="name" style="width:60%">重量税</td><td class="ctr" style="width:12%">非課税</td><td class="num">6,600</td></tr>
+      <tr><td class="name">印紙代（検査手数料）</td><td class="ctr">非課税</td><td class="num">2,100</td></tr>
+      <tr><td class="name">代行料</td><td class="ctr">課税</td><td class="num">7,000</td></tr>
+    </tbody>
+    <tfoot>
+      <tr><td colspan="2" style="text-align:right">諸費用 小計（税抜）</td><td class="num">15,700</td></tr>
+    </tfoot>
+  </table>
+
+  <div class="summary-wrap">
+    <div class="notes">
+      <ul>
+        <li>「持込」と表示の部品はお客様支給品です。</li>
+        <li>代行料には別途消費税（700円）がかかります。</li>
+        <li>重量税・印紙代は非課税です。</li>
+        <li>お支払いは下記口座へお振込をお願いいたします。</li>
+      </ul>
+    </div>
+    <table class="summary">
+      <tr class="sub"><td class="k">技術料</td><td class="v">32,455</td></tr>
+      <tr class="sub"><td class="k">部品金額</td><td class="v">2,000</td></tr>
+      <tr class="sub"><td class="k">代行料</td><td class="v">7,000</td></tr>
+      <tr><td class="k">課税対象計</td><td class="v">41,455</td></tr>
+      <tr><td class="k">消費税（10%）</td><td class="v">4,145</td></tr>
+      <tr><td class="k">非課税計（重量税・印紙代）</td><td class="v">8,700</td></tr>
+      <tr class="total"><td class="k">ご請求金額合計</td><td class="v">¥54,300</td></tr>
+    </table>
+  </div>
+
+  <div class="bank">
+    <b>お振込先</b><br>
+    但馬信用金庫　豊岡南支店（普通）024 7215　レックス（カ<br>
+    但馬銀行　昭和町支店　713 3276　レックス（カ
+  </div>
+
+  <div class="footer-note">
+    ※ 本書は納品書（伝票No.00016126）の内容に基づき作成した請求書です。
+  </div>
+</div>
+
+</body>
+</html>
